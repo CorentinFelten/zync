@@ -1,6 +1,8 @@
 # Changelog
 
 ## vX.X.X (YYYY-MM-DD)
+ - Show every endpoint of an instance, one per line: http(s) URLs as links, other protocols (ssh://, tcp://...) as code. Galvanize reports one endpoint per line when a challenge exposes several services; the whole text was shown as a single link or code block
+ - Escape connection info on the challenge page, which was inserted into the page as HTML
 
 ## v0.5.2 (2026-03-05)
  - Add Powered by in footer 

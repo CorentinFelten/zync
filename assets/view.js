@@ -139,6 +139,32 @@ function formatTimeLeft(expirationTime) {
     return `${minutes}m ${secondsPadded}s`;
 }
 
+// escapeHtml makes text safe inside HTML content and attribute values
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+// renderConnectionInfo renders Galvanize's connection info, one endpoint per
+// line: http(s) URLs as links, anything else (ssh://, tcp://, nc ...) as code
+function renderConnectionInfo(connectionInfo) {
+    return String(connectionInfo || "")
+        .split("\n")
+        .map(line => line.trim())
+        .filter(line => line !== "")
+        .map(line => {
+            const text = escapeHtml(line);
+            return /^https?:\/\//i.test(line)
+                ? `<a href="${text}" target="_blank" rel="noopener noreferrer">${text}</a>`
+                : `<code>${text}</code>`;
+        })
+        .join("<br />");
+}
+
 function displayConnectionInfo(statusData) {
     const connection_info = statusData.connection_info || "";
     const expiration_time = statusData.expiration_time;
@@ -146,8 +172,7 @@ function displayConnectionInfo(statusData) {
     const extension_time = statusData.extension_time || "30m";
     const unique = statusData.unique;
 
-    // If connection_info is a URL, make it a clickable link
-    const connectionInfo = (connection_info.indexOf('http') === 0) ? `<a href="${connection_info}" target="_blank">${connection_info}</a>` : `<code>${connection_info}</code>`;
+    const connectionInfo = renderConnectionInfo(connection_info);
 
     let timeBoxHtml = "";
     if (expiration_time) {

@@ -379,7 +379,7 @@
                 <td>${escapeHtml(chall.category)}</td>
                 <td>${escapeHtml(chall.challenge_name)}</td>
                 <td><span class="badge badge-${getStatusBadge(chall.status)} status-badge">${chall.status}</span></td>
-                <td><code class="connection-info">${escapeHtml(chall.connection_info || 'N/A')}</code></td>
+                <td><code class="connection-info" style="white-space: pre-line">${escapeHtml(chall.connection_info || 'N/A')}</code></td>
                 ${actionsCell}
             `;
             tbody.appendChild(row);
